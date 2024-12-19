@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notenrechner</title>
+</head>
+<body>
+    <h1>Notenrechner</h1>
+    <form id="notenForm">
+        <label for="notenpunkte">Gib deine Notenpunktzahl ein (0-15):</label>
+        <input type="number" id="notenpunkte" name="notenpunkte" min="0" max="15" required>
+        <button type="submit">Berechne Note</button>
+    </form>
+    <p id="ergebnis"></p>
+
+    <script>
+        const form = document.getElementById('notenForm');
+        const ergebnis = document.getElementById('ergebnis');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const notenpunkte = document.getElementById('notenpunkte').value;
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/berechne_note', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ notenpunkte: parseInt(notenpunkte) }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    ergebnis.textContent = data.note;
+                } else {
+                    const errorData = await response.json();
+                    ergebnis.textContent = `Fehler: ${errorData.error}`;
+                }
+            } catch (error) {
+                ergebnis.textContent = 'Es gab ein Problem mit der Anfrage.';
+            }
+        });
+    </script>
+</body>
+</html>
