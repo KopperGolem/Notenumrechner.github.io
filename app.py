@@ -1,3 +1,6 @@
+Here is your updated `app.py` file with the added route for the root URL and the optional favicon:
+
+```python
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -48,6 +51,14 @@ def ausrechnen(notenpunkte):
         return "Diese Notenpunktzahl gibt es nicht!"
 
 # Flask-Route
+@app.route('/')
+def home():
+    return "Welcome to the Notenumrechner API!"
+
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204
+
 @app.route('/berechne_note', methods=['POST'])
 def berechne_note():
     data = request.get_json()
@@ -60,3 +71,4 @@ def berechne_note():
 
 if __name__ == "__main__":
     app.run(debug=True)
+```
