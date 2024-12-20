@@ -1,9 +1,8 @@
-Here is your updated `app.py` file with the added route for the root URL and the optional favicon:
-
-```python
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Notentexte
 sehrgut = "Sehr gut! Du hast eine"
@@ -71,4 +70,3 @@ def berechne_note():
 
 if __name__ == "__main__":
     app.run(debug=True)
-```
